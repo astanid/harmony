@@ -9,7 +9,7 @@ import com.reisal78.app.view.controller.FameController;
 import com.reisal78.app.view.view.MainFrame;
 
 import java.awt.event.WindowListener;
-import java.util.Scanner;
+
 
 /**
  * Created by Astanid on 21.03.2016.

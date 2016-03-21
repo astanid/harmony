@@ -9,6 +9,7 @@ import java.io.IOException;
 /**
  * Created by Astanid on 15.03.2016.
  */
+
 public class RunAppOld {
 
     private static int fanSpeed = 0;
@@ -21,11 +22,11 @@ public class RunAppOld {
 //                System.exit(1);
 //            }
 //        });
-        int co2=600;
-        int limit0=500; //уровень отключения
-        int limit1=650; //желаемая величина
-        int limit2=800; // предел для включения макс скорости
-        boolean powerOn=true;
+        int co2 = 600;
+        int limit0 = 500; //уровень отключения
+        int limit1 = 650; //желаемая величина
+        int limit2 = 800; // предел для включения макс скорости
+        boolean powerOn = true;
 
         HT2000UsbConnection usbConnection = null;
         try {
@@ -38,18 +39,18 @@ public class RunAppOld {
 
                 HT2000State state = usbConnection.readState();
 //                changeSpeed(state.getCo2());
-                co2=state.getCo2();
+                co2 = state.getCo2();
                 System.out.println("co2 = " + co2 + " " + fanSpeed + " " + powerOn);
-                if (co2 <= limit0 && powerOn==true) {
+                if (co2 <= limit0 && powerOn == true) {
                     //Выключение
                     Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
                     powerOn = false;
                     System.out.println("выключаем установку");
-                } else if (co2 >= limit0+50 && powerOn == false) {
-                        //Включение
-                        Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
-                        powerOn = true;
-                        System.out.println("включаем установку");
+                } else if (co2 >= limit0 + 50 && powerOn == false) {
+                    //Включение
+                    Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
+                    powerOn = true;
+                    System.out.println("включаем установку");
                 } else if (co2 > limit0 && co2 <= limit1 && fanSpeed != 1) {
                     Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Speed1\"");
                     fanSpeed = 1;
@@ -79,8 +80,11 @@ public class RunAppOld {
         }
     }
 
-    private static void changeSpeed(int co2) throws IOException {
-        System.out.println("co2 = " + co2 + " " + fanSpeed + " " + powerOn);
+ //   private static void get_co2() throws IOException {
 
-    }
+ //       HT2000State state = usbConnection.readState();
+ //       int get_co2 = state.getCo2();
+ //       System.out.println("co2 = " + get_co2);
+ //       return get_co2;
+ //   }
 }
