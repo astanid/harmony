@@ -17,7 +17,7 @@ public class StatusPanel extends JPanel {
         add(new JLabel("Текущее CO2: "));
         add(currentCo2);
 
-        add(new JLabel("Текущаяя скорость: "));
+        add(new JLabel("Текущая скорость: "));
         add(currentSpeed);
 
         add(new JLabel("Текущий статус: "));

@@ -2,6 +2,7 @@ package com.reisal78.app.view.view;
 
 import com.reisal78.app.service.dto.DataContainer;
 import com.reisal78.app.view.Observer;
+import javafx.scene.layout.GridPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,19 +18,19 @@ public class MainFrame extends JFrame implements Observer {
 
     public MainFrame(String title, WindowListener windowListener) throws HeadlessException {
         super(title);
-        setSize(600, 400);
-        setVisible(true);
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout(5,5));
         setContentPane(mainPanel);
 
         JPanel leftPanel = new JPanel(new FlowLayout());
         mainPanel.add(leftPanel, BorderLayout.WEST);
         leftPanel.add(statusPanel);
         mainPanel.add(logPanel, BorderLayout.CENTER);
-        mainPanel.add(new JPanel(), BorderLayout.EAST);
-
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(windowListener);
+
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        pack();
+
     }
 
     @Override
