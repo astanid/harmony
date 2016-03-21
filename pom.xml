@@ -33,7 +33,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.reisal78.app.RunAppOld</mainClass>
+                            <mainClass>com.reisal78.app.RunApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
