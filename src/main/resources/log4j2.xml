@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
-        <Property name="log_dir">logs/</Property>
+        <Property name="log_dir">logList/</Property>
         <!--${date:yyyy_MM_dd_HH_mm_ss}-->
     </Properties>
     <Appenders>

@@ -12,7 +12,8 @@ import java.awt.event.WindowListener;
  */
 public class MainFrame extends JFrame implements Observer {
 
-    StatusPanel statusPanel = new StatusPanel();
+    private StatusPanel statusPanel = new StatusPanel();
+    private LogPanel logPanel = new LogPanel();
 
     public MainFrame(String title, WindowListener windowListener) throws HeadlessException {
         super(title);
@@ -24,6 +25,8 @@ public class MainFrame extends JFrame implements Observer {
         JPanel leftPanel = new JPanel(new FlowLayout());
         mainPanel.add(leftPanel, BorderLayout.WEST);
         leftPanel.add(statusPanel);
+        mainPanel.add(logPanel, BorderLayout.CENTER);
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(windowListener);
     }
@@ -33,5 +36,6 @@ public class MainFrame extends JFrame implements Observer {
         statusPanel.setCurrentCo2(data.getCurrentCo2());
         statusPanel.setCurrentSpeed(data.getCurrentSpeed());
         statusPanel.setStatus(data.isStatus());
+        logPanel.setLogList(data.getMessages());
     }
 }

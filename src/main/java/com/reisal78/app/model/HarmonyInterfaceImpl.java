@@ -3,16 +3,15 @@ package com.reisal78.app.model;
 import com.eschava.ht2000.usb.HT2000State;
 import com.eschava.ht2000.usb.HT2000UsbConnection;
 import com.eschava.ht2000.usb.UsbException;
-import com.reisal78.app.model.HarmonyUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * Created by Igor Simagin on 21.03.2016.
  */
-public class HarmonyUtilsMock implements HarmonyUtils {
+public class HarmonyInterfaceImpl implements HarmonyInterface {
 
-    private static final Logger LOGGER = LogManager.getLogger(HarmonyUtilsMock.class);
+    private static final Logger LOGGER = LogManager.getLogger(HarmonyInterfaceImpl.class);
 
 
     private HT2000UsbConnection usbConnection = null;
@@ -36,12 +35,12 @@ public class HarmonyUtilsMock implements HarmonyUtils {
 
     @Override
     public int getCo2() {
-        int co2 = 0;
+        int co2;
         HT2000State state = null;
         try {
             state = usbConnection.readState();
             co2 = state.getCo2();
-            LOGGER.info("- " + co2 + " - " + currentSpeed + " - " + status); /*((status) ? "on" : "off"));*/
+            LOGGER.info("- " + co2 + " - " + currentSpeed + " - " + ((status) ? "on" : "off"));
             return co2;
         } catch (UsbException e) {
             e.printStackTrace();

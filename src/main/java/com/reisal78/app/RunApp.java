@@ -1,7 +1,8 @@
 package com.reisal78.app;
 
-import com.reisal78.app.model.HarmonyUtils;
-import com.reisal78.app.model.HarmonyUtilsMock;
+import com.reisal78.app.model.HarmonyInterface;
+import com.reisal78.app.model.HarmonyInterfaceImpl;
+import com.reisal78.app.model.HarmonyInterfaceMock;
 import com.reisal78.app.service.AbstractService;
 import com.reisal78.app.service.HarmonyService;
 import com.reisal78.app.view.Observer;
@@ -16,7 +17,7 @@ import java.awt.event.WindowListener;
  */
 public class RunApp {
     public static void main(String[] args) {
-        HarmonyUtils harmonyUtils = new HarmonyUtilsMock();
+        HarmonyInterface harmonyUtils = new HarmonyInterfaceMock();
         AbstractService service = new HarmonyService(harmonyUtils);
         WindowListener windowListener = new FameController(service);
         Observer observer = new MainFrame("Harmony Utils", windowListener);
