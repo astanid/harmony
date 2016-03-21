@@ -86,7 +86,7 @@ public class HarmonyService extends AbstractService {
     private void addMessage(String message) {
         LOGGER.info(message);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        message ="<b>" + format.format(new Date()) + "</b>: " + message;
+        message = format.format(new Date()) + ": " + message;
         messages.add(String.valueOf(message));
         if (messages.size() > LOG_LENGTH) {
             messages.remove();
