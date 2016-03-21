@@ -1,5 +1,14 @@
 package com.reisal78.app;
 
+import com.reisal78.app.model.HarmonyUtils;
+import com.reisal78.app.model.HarmonyUtilsMock;
+import com.reisal78.app.service.AbstractService;
+import com.reisal78.app.service.HarmonyService;
+import com.reisal78.app.view.Observer;
+import com.reisal78.app.view.controller.FameController;
+import com.reisal78.app.view.view.MainFrame;
+
+import java.awt.event.WindowListener;
 import java.util.Scanner;
 
 /**
@@ -7,19 +16,13 @@ import java.util.Scanner;
  */
 public class RunApp {
     public static void main(String[] args) {
-        AbstractServer server = new CO2Server();
-        Observer observer = new View();
-        server.registryObserver(observer);
+        HarmonyUtils harmonyUtils = new HarmonyUtilsMock();
+        AbstractService service = new HarmonyService(harmonyUtils);
+        WindowListener windowListener = new FameController(service);
+        Observer observer = new MainFrame("Harmony Utils", windowListener);
+        service.registryObserver(observer);
 
-        new Thread(server).run();
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("'q' for exit");
-
-        if (scanner.nextLine().equalsIgnoreCase("q")) {
-            server.stop();
-        }
-
+        new Thread(service).start();
 
     }
 }
