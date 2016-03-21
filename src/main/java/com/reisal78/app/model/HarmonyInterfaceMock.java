@@ -2,6 +2,7 @@ package com.reisal78.app.model;
 
 /**
  * Created by Igor Simagin on 21.03.2016.
+ * Это класс заглушка, я его использовал как имитатор твоей установки. он тебе не нужен
  */
 public class HarmonyInterfaceMock implements HarmonyInterface {
 

@@ -6,17 +6,19 @@ import com.eschava.ht2000.usb.UsbException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 /**
  * Created by Igor Simagin on 21.03.2016.
  */
 public class HarmonyInterfaceImpl implements HarmonyInterface {
 
-    private static final Logger LOGGER = LogManager.getLogger(HarmonyInterfaceImpl.class);
+    public static final Logger LOGGER = LogManager.getLogger(HarmonyInterfaceImpl.class);
 
 
     private HT2000UsbConnection usbConnection = null;
-    private int currentSpeed;
-    private boolean status;
+    private int currentSpeed = 1;
+    private boolean status = true;
 
 
     @Override
@@ -25,11 +27,13 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
             usbConnection = new HT2000UsbConnection();
             usbConnection.open();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
+            System.exit(-1);
         }
-        powerOn();
-        setSpeed(0);
-        LOGGER.info("Application is Run");
+        //при запуске программы включаем установку, и ставим скорость 1
+        //она уже запущена при старте программы
+       // powerOn();
+       // setSpeed(1);
     }
 
 
@@ -40,7 +44,6 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
         try {
             state = usbConnection.readState();
             co2 = state.getCo2();
-            LOGGER.info("- " + co2 + " - " + currentSpeed + " - " + ((status) ? "on" : "off"));
             return co2;
         } catch (UsbException e) {
             e.printStackTrace();
@@ -50,25 +53,40 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
 
     @Override
     public void setSpeed(int speed) {
-        currentSpeed = speed;
+        try {
+            Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Speed" + speed + "\"");
+            currentSpeed = speed;
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
     }
 
     @Override
     public void powerOff() {
-        status = false;
+        try {
+            Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
+            status = false;
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     @Override
     public void powerOn() {
-        status = true;
+        try {
+            Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
+            status = true;
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
 
     @Override
     public void destroy() {
-        setSpeed(0);
-        powerOff();
-        LOGGER.info("Application is close");
+        //setSpeed(1);
+        //powerOff();
         usbConnection.close();
         HT2000UsbConnection.shutdown();
         System.exit(0);

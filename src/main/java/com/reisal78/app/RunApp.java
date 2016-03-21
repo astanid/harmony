@@ -17,7 +17,7 @@ import java.awt.event.WindowListener;
  */
 public class RunApp {
     public static void main(String[] args) {
-        HarmonyInterface harmonyUtils = new HarmonyInterfaceMock();
+        HarmonyInterface harmonyUtils = new HarmonyInterfaceImpl();
         AbstractService service = new HarmonyService(harmonyUtils);
         WindowListener windowListener = new FameController(service);
         Observer observer = new MainFrame("Harmony Utils", windowListener);

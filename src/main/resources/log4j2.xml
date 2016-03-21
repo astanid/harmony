@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="INFO" monitorInterval="30">
     <Properties>
         <Property name="log_dir">logList/</Property>
         <!--${date:yyyy_MM_dd_HH_mm_ss}-->
@@ -19,8 +19,6 @@
                 <SizeBasedTriggeringPolicy size="50MB"/>
             </Policies>
             <DefaultRolloverStrategy max="20"/>
-
-
         </RollingFile>
         <Async name="AsyncConsole">
             <AppenderRef ref="Console"/>
@@ -34,7 +32,7 @@
         <Logger name="org.springframework" level="WARN"/>
         <Logger name="org.eclipse.jetty" level="INFO"/>
 
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="AsyncConsole"/>
             <AppenderRef ref="AsyncFile"/>
         </Root>

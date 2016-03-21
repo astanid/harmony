@@ -19,13 +19,14 @@ public class MainFrame extends JFrame implements Observer {
         super(title);
         setSize(600, 400);
         setVisible(true);
-        JPanel mainPanel = new JPanel(new BorderLayout(5,5));
+        JPanel mainPanel = new JPanel(new BorderLayout());
         setContentPane(mainPanel);
 
         JPanel leftPanel = new JPanel(new FlowLayout());
         mainPanel.add(leftPanel, BorderLayout.WEST);
         leftPanel.add(statusPanel);
         mainPanel.add(logPanel, BorderLayout.CENTER);
+        mainPanel.add(new JPanel(), BorderLayout.EAST);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(windowListener);
