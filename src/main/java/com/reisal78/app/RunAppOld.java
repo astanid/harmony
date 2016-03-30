@@ -3,6 +3,7 @@ package com.reisal78.app;
 import com.eschava.ht2000.usb.HT2000State;
 import com.eschava.ht2000.usb.HT2000UsbConnection;
 import com.eschava.ht2000.usb.UsbException;
+import com.reisal78.app.model.HarmonyInterface;
 
 import java.io.IOException;
 
@@ -26,6 +27,7 @@ public class RunAppOld {
         int limit0 = 500; //уровень отключения
         int limit1 = 650; //желаемая величина
         int limit2 = 800; // предел для включения макс скорости
+        int di=25;
         boolean powerOn = true;
 
         HT2000UsbConnection usbConnection = null;

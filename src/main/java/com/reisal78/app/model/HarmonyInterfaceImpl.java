@@ -17,7 +17,7 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
 
 
     private HT2000UsbConnection usbConnection = null;
-    private int currentSpeed = 1;
+    private int currentSpeed = 0;
     private boolean status = true;
 
 
@@ -46,16 +46,19 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
             co2 = state.getCo2();
             return co2;
         } catch (UsbException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
-        return 0;
+        return 600;
     }
 
     @Override
     public void setSpeed(int speed) {
         try {
             Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Speed" + speed + "\"");
+         //   Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Speed" + speed + "\"");
+
             currentSpeed = speed;
+            LOGGER.debug(">> change speed" + currentSpeed);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -67,6 +70,7 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
         try {
             Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
             status = false;
+            LOGGER.debug(">> Power Off");
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -77,6 +81,7 @@ public class HarmonyInterfaceImpl implements HarmonyInterface {
         try {
             Runtime.getRuntime().exec("node c:\\Harmony\\AutoVent\\harmonyHubCLI\\harmonyHubCli.js -l 192.168.1.33 -d \"VENTS VUT2\" -c \"Power Toggle\"");
             status = true;
+            LOGGER.debug(">> Power ON");
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }

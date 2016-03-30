@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO" monitorInterval="30">
     <Properties>
-        <Property name="log_dir">logList/</Property>
+        <Property name="log_dir">logList/${date:yyyy_MM_dd-HH_mm}</Property>
         <!--${date:yyyy_MM_dd_HH_mm_ss}-->
     </Properties>
     <Appenders>
@@ -32,7 +32,7 @@
         <Logger name="org.springframework" level="WARN"/>
         <Logger name="org.eclipse.jetty" level="INFO"/>
 
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="AsyncConsole"/>
             <AppenderRef ref="AsyncFile"/>
         </Root>

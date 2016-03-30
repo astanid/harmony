@@ -18,7 +18,7 @@ import java.util.Queue;
 public class HarmonyService extends AbstractService {
 
     private final static Logger LOGGER = LogManager.getLogger(HarmonyService.class);
-    public final static int LOG_LENGTH = 10000; //длина лога в окне
+    public final static int LOG_LENGTH = 1000; //длина лога в окне
 
     private HarmonyInterface utils;
 
@@ -26,7 +26,7 @@ public class HarmonyService extends AbstractService {
 
     private boolean isRun = true;
     private final int TIME_INTERVAL = 5000; //интервал запроса
-    private final int TIME_PAUSE = 30000;
+    private final int TIME_PAUSE = 10000;
 
     public HarmonyService(HarmonyInterface utils) {
         this.utils = utils;
@@ -45,19 +45,23 @@ public class HarmonyService extends AbstractService {
 
     private void startVerify(int co2) {
 
-        addMessage("Текущее СО2 - " + co2 );
+        addMessage("СО2 - " + co2 + " speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
 
 
          //Если со2 на нижнем лимите
         if (co2 <= HarmonyInterface.LIMIT_0 && utils.getStatus()) {
             utils.powerOff(); //выключаем
-            addMessage("Выключение установки");
+            //addMessage("СО2 - " + co2 + " скорость " +  utils.getCurrentSpeed());
+            addMessage("СО2 - " + co2 + " speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
+            addMessage("Power Off");
             sleep(TIME_PAUSE); //уснули на 30 сек
         }
 
-        if (co2 > HarmonyInterface.LIMIT_0 && !utils.getStatus()) {
+        if (co2 > HarmonyInterface.LIMIT_0+50 && !utils.getStatus()) {
             utils.powerOn();
-            addMessage("Установка запущена");
+            //addMessage("СО2 - " + co2 + " скорость " +  utils.getCurrentSpeed());
+            addMessage("СО2 - " + co2 + " speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
+            addMessage("Power On");
             //в общем если понадобится добавишь сюда
             //utils.setSpeed(1);
             sleep(TIME_PAUSE);
@@ -65,20 +69,29 @@ public class HarmonyService extends AbstractService {
 
         if (co2 > HarmonyInterface.LIMIT_0 && co2 < HarmonyInterface.LIMIT_1 && utils.getCurrentSpeed() != 1) {
             utils.setSpeed(1);
-            addMessage("Включаем скорость " + utils.getCurrentSpeed());
+            //addMessage( " скорость " +  utils.getCurrentSpeed());
+            addMessage("СО2 - " + utils.getCo2() + " set speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
             sleep(TIME_PAUSE);
         }
 
         if (co2 > HarmonyInterface.LIMIT_1 && co2 < HarmonyInterface.LIMIT_2 && utils.getCurrentSpeed() != 2) {
             utils.setSpeed(2);
-            addMessage("Включаем скорость " + utils.getCurrentSpeed());
-            sleep(TIME_PAUSE);
+            //addMessage("СО2 - " + co2 + " set speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
+            while ((utils.getCo2() > HarmonyInterface.LIMIT_1 - 25) && (utils.getCo2()<HarmonyInterface.LIMIT_2)){
+                addMessage("waiting  СО2 - " + utils.getCo2() + " speed " + utils.getCurrentSpeed() + " " + utils.getStatus());
+                sleep(TIME_PAUSE);
+            }
+
         }
 
         if (co2 > HarmonyInterface.LIMIT_2 && utils.getCurrentSpeed() != 3) {
             utils.setSpeed(3);
-            addMessage("Включаем скорость " + utils.getCurrentSpeed());
-            sleep(TIME_PAUSE);
+            //addMessage("СО2 - " + co2 + " set speed " +  utils.getCurrentSpeed() + " " + utils.getStatus());
+            //addMessage("СО2 - " + co2 + " скорость " +  utils.getCurrentSpeed());
+            while (utils.getCo2() > HarmonyInterface.LIMIT_2 - 50){
+                addMessage("waiting СО2 - " + utils.getCo2() + " speed " + utils.getCurrentSpeed() + " " + utils.getStatus());
+                sleep(TIME_PAUSE);
+             }
         }
 
     }
@@ -86,7 +99,7 @@ public class HarmonyService extends AbstractService {
     private void addMessage(String message) {
         LOGGER.info(message);
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        message = format.format(new Date()) + ": " + message;
+        message = "<b>" + format.format(new Date()) + "</b>: " + message;
         messages.add(String.valueOf(message));
         if (messages.size() > LOG_LENGTH) {
             messages.remove();
